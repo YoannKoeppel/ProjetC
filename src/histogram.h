@@ -4,11 +4,11 @@
 
 #include "image.h"
 
-int initHistogram (Image image);
+unsigned char* initHistogram (Image *image);
 
-void createHistogram (Image image, int* Histo[]);
+void createHistogram (Image *image, unsigned char *Histo);
 
-void printHistogram(Image image, int* Histo[]);
+void printHistogram(unsigned char *Histo);
 
 
 #endif
