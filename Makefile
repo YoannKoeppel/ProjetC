@@ -1,9 +1,9 @@
 CC     = gcc
 CFLAGS = -Wall -O2 -Wno-unused-result -g
 LIB    = -lm
-OBJ    = main.o image.o 
+OBJ    = main.o image.o histogram.o
 RM     = rm -f
-BIN    = minigimp
+BIN    = bin/minigimp
 DIRNAME = $(shell basename $$PWD)
 BACKUP  = $(shell date +`basename $$PWD`-%m.%d.%H.%M.zip)
 STDNAME = $(DIRNAME).zip
@@ -14,12 +14,17 @@ all : $(OBJ)
 	@echo "            to execute type: $(BIN) &"
 	@echo "--------------------------------------------------------------"
 
-image.o : image.c image.h
+histogram.o : src/histogram.c src/histogram.h src/image.h
 	@echo "compile image"
 	$(CC) $(CFLAGS) -c $<  
 	@echo "done..."
 
-main.o : main.c image.o 
+image.o : src/image.c src/image.h
+	@echo "compile image"
+	$(CC) $(CFLAGS) -c $<  
+	@echo "done..."
+
+main.o : src/main.c src/image.h src/histogram.h
 	@echo "compile main"
 	$(CC) $(CFLAGS) -c $<  
 	@echo "done..."
