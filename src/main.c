@@ -3,6 +3,7 @@
 
 #include "image.h"
 #include "histogram.h"
+#include "lut.h"
 
 
 int main(int argc, char **argv)
