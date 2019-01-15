@@ -6,6 +6,7 @@ typedef struct Image{
   unsigned char *data;
   unsigned int width;
   unsigned int height;
+  long taille;
 }Image;
 
 

@@ -8,7 +8,7 @@ unsigned char* initHistogram (Image *image);
 
 void createHistogram (Image *image, unsigned char *Histo);
 
-void printHistogram(unsigned char *Histo);
+//void printHistogram(unsigned char *Histo);
 
 
 #endif
