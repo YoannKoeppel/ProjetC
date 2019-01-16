@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 #include "lut.h"
 
 
 
-void addLum(int value, LUT *LUT) {
+void addLUM(int value, LUT *LUT) {
 	for (int i = 0; i < 256; i++)
 	{
 		LUT->R[i]+=value;
@@ -15,12 +16,48 @@ void addLum(int value, LUT *LUT) {
 	}
 }
 
-void dimLum(int value, LUT *LUT) {
+void dimLUM(int value, LUT *LUT) {
 	for (int i = 0; i < 256; i++)
 	{
 		LUT->R[i]-=value;
 		LUT->V[i]-=value;
 		LUT->B[i]-=value;
+	}
+}
+
+
+void addCON(int value, LUT *LUT) {
+
+	float varFormule = 0;
+	float facteur = 0;
+
+	for (int i = 0; i < 256; i++)
+	{
+		varFormule = (LUT->R[i])*0.0039;
+		facteur = 0.5*(sin(M_PI*varFormule+3*M_PI/2)+1);
+		LUT->R[i]=(int)((float)(LUT->R[i])*facteur);
+
+		varFormule = (LUT->V[i])*0.0039;
+		facteur = 0.5*(sin(M_PI*varFormule+3*M_PI/2)+1);
+		LUT->V[i]=(int)((float)(LUT->V[i])*facteur);
+
+		varFormule = (LUT->B[i])*0.0039;
+		facteur = 0.5*(sin(M_PI*varFormule+3*M_PI/2)+1);
+		LUT->B[i]=(int)((float)(LUT->B[i])*facteur);
+
+	}
+}
+
+
+void dimCON(int value, LUT *LUT) {
+
+	float facteur = (259.0*(-(float)value+255.0))/(255.0*(259.0+(float)value));
+	for (int i = 0; i < 256; i++)
+	{
+		LUT->R[i]=(int)(((float)(LUT->R[i])*facteur-128.0)+128.0);
+		LUT->V[i]=(int)(((float)(LUT->V[i])*facteur-128.0)+128.0);
+		LUT->B[i]=(int)(((float)(LUT->B[i])*facteur-128.0)+128.0);
+		
 	}
 }
 
@@ -120,7 +157,7 @@ void startLUT(int argc,char **argv,LUT *LUT,Image *image) {
         {
         	printf("START : %s %s %d\n",argv[i+1] , argv[i],  atoi(argv[i+1]));
 
-            addLum(atoi(argv[i+1]),LUT);
+            addLUM(atoi(argv[i+1]),LUT);
       
         }
 
@@ -129,9 +166,26 @@ void startLUT(int argc,char **argv,LUT *LUT,Image *image) {
         	printf("START : %s %s %d\n",argv[i+1] , argv[i],  atoi(argv[i+1]));
 
             dimLUM(atoi(argv[i+1]),LUT);
-         
 
         }
+
+        if (strcmp(argv[i],"ADDCON") == 0)
+        {
+        	printf("START : %s %s %d\n",argv[i+1] , argv[i],  atoi(argv[i+1]));
+
+            addCON(atoi(argv[i+1]),LUT);
+
+        }
+
+        if (strcmp(argv[i],"DIMCON") == 0)
+        {
+        	printf("START : %s %s %d\n",argv[i+1] , argv[i],  atoi(argv[i+1]));
+
+            dimCON(atoi(argv[i+1]),LUT);
+
+        }
+
+
 
         i = i+2;
     }   applyLUT(LUT,image);
