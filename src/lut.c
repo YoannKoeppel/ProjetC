@@ -35,14 +35,35 @@ void addCON(int value, LUT *LUT) {
 	{
 		varFormule = (LUT->R[i])*0.0039;
 		facteur = 0.5*(sin(M_PI*varFormule+3*M_PI/2)+1);
+		if (facteur>=0.5)
+		{
+			facteur=facteur*(1+(float)value/100);
+		}
+		else {
+			facteur = facteur*(1-(float)value/100);
+		}
 		LUT->R[i]=(int)((float)(LUT->R[i])*facteur);
 
 		varFormule = (LUT->V[i])*0.0039;
 		facteur = 0.5*(sin(M_PI*varFormule+3*M_PI/2)+1);
+		if (facteur>=0.5)
+		{
+			facteur=facteur*(1+(float)value/100);
+		}
+		else {
+			facteur = facteur*(1-(float)value/100);
+		}
 		LUT->V[i]=(int)((float)(LUT->V[i])*facteur);
 
 		varFormule = (LUT->B[i])*0.0039;
 		facteur = 0.5*(sin(M_PI*varFormule+3*M_PI/2)+1);
+		if (facteur>=0.5)
+		{
+			facteur=facteur*(1+(float)value/100);
+		}
+		else {
+			facteur = facteur*(1-(float)value/100);
+		}
 		LUT->B[i]=(int)((float)(LUT->B[i])*facteur);
 
 	}
@@ -51,12 +72,12 @@ void addCON(int value, LUT *LUT) {
 
 void dimCON(int value, LUT *LUT) {
 
-	float facteur = (259.0*(-(float)value+255.0))/(255.0*(259.0+(float)value));
+	float facteur = ((259.0*(255.0-(float)value))/(255.0*(259.0 + (float)value)));
 	for (int i = 0; i < 256; i++)
 	{
-		LUT->R[i]=(int)(((float)(LUT->R[i])*facteur-128.0)+128.0);
-		LUT->V[i]=(int)(((float)(LUT->V[i])*facteur-128.0)+128.0);
-		LUT->B[i]=(int)(((float)(LUT->B[i])*facteur-128.0)+128.0);
+		LUT->R[i]=(int)(facteur*(((float)(LUT->R[i]))-128.0)+128.0);
+		LUT->V[i]=(int)(facteur*(((float)(LUT->V[i]))-128.0)+128.0);
+		LUT->B[i]=(int)(facteur*(((float)(LUT->B[i]))-128.0)+128.0);
 		
 	}
 }
