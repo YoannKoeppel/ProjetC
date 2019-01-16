@@ -36,11 +36,6 @@ int main(int argc, char **argv)
         LUT.V[i]=i;
         LUT.B[i]=i;
     }
-    for (int i = 0; i < 256; i++)
-    {
-        printf("%d\n",LUT.R[i]);
-
-    }
 
     //pointeurHisto = initHistogram(&image);
     //pointeurHisto = initHistogram(&image);
@@ -49,7 +44,6 @@ int main(int argc, char **argv)
 
     startLUT(argc,argv,&LUT);
 
-    printf("test 4\n")  ;
     applyLUT(LUT,&image);
 
 
@@ -59,9 +53,8 @@ int main(int argc, char **argv)
 
 
     // save the image (if the directory "pics" already exists)
-    saveImagePPM(&image, "images/img_output.ppm");
+    saveImagePPM(&image, argv[argc-1]);
 
-printf("test 5\n")  ;
     // free the image memory
     freeImage(&image);
 

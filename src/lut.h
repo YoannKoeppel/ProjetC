@@ -4,15 +4,18 @@
 #include "image.h"
 
 typedef struct LUT{
-  unsigned char R[256];
-  unsigned char V[256];
-  unsigned char B[256];
+   int R[256];
+   int V[256];
+   int B[256];
 }LUT;
 
 
 
 
 void addLum(int value, LUT *LUT) ;
+void dimLUM(int value, LUT *LUT);
+
+
 void applyLUT(LUT LUT, Image *image);
 
 void startLUT(int argc,char **argv,LUT *LUT) ;
