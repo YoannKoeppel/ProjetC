@@ -42,9 +42,9 @@ int main(int argc, char **argv)
     //createHistogram(&image, pointeurHisto);
     //printHistogram(pointeurHisto);
 
-    startLUT(argc,argv,&LUT);
+    startLUT(argc,argv,&LUT,&image);
 
-    applyLUT(LUT,&image);
+ 
 
 
 

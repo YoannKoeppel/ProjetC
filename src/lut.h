@@ -12,13 +12,13 @@ typedef struct LUT{
 
 
 
-void addLum(int value, LUT *LUT) ;
+void addLUM(int value, LUT *LUT) ;
 void dimLUM(int value, LUT *LUT);
 
 
-void applyLUT(LUT LUT, Image *image);
+void applyLUT(LUT *LUT, Image *image);
 
-void startLUT(int argc,char **argv,LUT *LUT) ;
+void startLUT(int argc,char **argv,LUT *LUT,Image *image) ;
 
 
 
