@@ -19,17 +19,14 @@ int main(int argc, char **argv)
     // load a ppm file
     if(loadImagePPM(&image,argv[1]) != EXIT_SUCCESS)
         return EXIT_FAILURE;
-
-    // modify the image (red pixel in the center)
-   // unsigned int pixel = (image.width*(image.height/2) + (image.width/2))*3;
-  //  printf("%d\n",pixel);
-    // image.data[pixel + 0] = 255;
-    // image.data[pixel + 1] = 0;
-    // image.data[pixel + 2] = 0;
-
+    
+    // stocke la taille de l'image
     image.taille = (image.width*image.height)*3;
 
+    // création de LUT
     LUT LUT;
+
+    //initialisation des LUT RVB
     for (int i = 0; i < 256; i++)
     {
         LUT.R[i]=i;
@@ -37,20 +34,13 @@ int main(int argc, char **argv)
         LUT.B[i]=i;
     }
 
-    //pointeurHisto = initHistogram(&image);
+    //création de l'histogramme
     //pointeurHisto = initHistogram(&image);
     //createHistogram(&image, pointeurHisto);
     //printHistogram(pointeurHisto);
 
+    //Execution
     startLUT(argc,argv,&LUT,&image);
-
- 
-
-
-
-
-
-
 
     // save the image (if the directory "pics" already exists)
     saveImagePPM(&image, argv[argc-1]);

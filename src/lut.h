@@ -9,22 +9,13 @@ typedef struct LUT{
    int B[256];
 }LUT;
 
-
-
-
 void addLUM(int value, LUT *LUT);
 void dimLUM(int value, LUT *LUT);
 void addCON(int value, LUT *LUT);
 void dimCON(int value, LUT *LUT);
-
+void invert(LUT *LUT);
 
 void applyLUT(LUT *LUT, Image *image);
-
 void startLUT(int argc,char **argv,LUT *LUT,Image *image) ;
-
-
-
-
-
 
 #endif

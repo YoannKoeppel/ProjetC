@@ -3,30 +3,25 @@
 
 #include "histogram.h"
 
+
 // création d'un tableau histogramme
-
 unsigned char* initHistogram (Image *image){
-
-     unsigned char *Histo= malloc((image->width*image->height)*sizeof(unsigned char)); 
-    
+    unsigned char *Histo= malloc((image->width*image->height)*sizeof(unsigned char)); 
     for (int i=0; i <= 255; i++)
     {
         Histo[i]=0;
     }
-     return (Histo);
+    return (Histo);
 }    
 
 
 
 void createHistogram (Image *image, unsigned char *Histo){
-    
-
     for (int j=0; j < image->taille; j=j+3)
     {
         int m = ((image->data[j])+(image->data[j+1])+(image->data[j+2]))/3;
         Histo[m]+=1;
     }
-
     for (int i = 0; i <= 255; ++i)
     {
         printf("%d : %hhu\n",i, Histo[i]);
