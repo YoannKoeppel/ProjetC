@@ -16,7 +16,7 @@ void dimCON(int value, LUT *LUT);
 void invert(LUT *LUT);
 void sepia(LUT *LUT);
 
-void applyLUT(LUT *LUT, Image *image);
+void applyLUT(LUT *LUT, Image *image, int sepiaUsed);
 void startLUT(int argc,char **argv,LUT *LUT,Image *image) ;
 
 #endif

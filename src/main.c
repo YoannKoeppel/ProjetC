@@ -6,6 +6,8 @@
 #include "histogram.h"
 #include "lut.h"
 
+int sepiaUsed = 0;
+
 // prototype fonction LUT
 void startLUT(int argc,char **argv,LUT *LUT,Image *image);
 
@@ -87,6 +89,7 @@ void startLUT(int argc,char **argv,LUT *LUT,Image *image) {
 
         if (strcmp(argv[i],"SEPIA") == 0)
         {
+        	sepiaUsed = 1;
             printf("START : %s %s %d\n",argv[i+1] , argv[i],  atoi(argv[i+1]));
             sepia(LUT);
         }
@@ -100,7 +103,7 @@ void startLUT(int argc,char **argv,LUT *LUT,Image *image) {
 
         i++;
     }   
-    applyLUT(LUT,image);
+    applyLUT(LUT,image,sepiaUsed);
 }
    
 
