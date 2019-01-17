@@ -96,6 +96,34 @@ void invert(LUT *LUT) {
 	}
 }
 
+//FONCTION SEPIA
+void sepia(LUT *LUT) {
+	for (int i = 0; i < 256; i++)
+	{
+		LUT->R[i] = (int)((float)LUT->R[i] * 0.3686);
+		LUT->V[i] = (int)((float)LUT->V[i] * 0.1490);
+		LUT->B[i] = (int)((float)LUT->B[i] * 0.0705);
+
+
+		// float grayScale = ((float)(LUT->R[i])*0.2125) + ((float)(LUT->V[i])*0.7164) + ((float)(LUT->B[i])*0.114);
+		// float grayFactor = grayScale / 255.0;
+
+		// LUT->R[i] = (int)((2 + grayFactor) * 94.0);
+		// LUT->V[i] = (int)((2 + grayFactor) * 38.0);
+		// LUT->B[i] = (int)((2 + grayFactor) * 18.0);
+
+		// int grayScale =(LUT->R[i]+LUT->V[i]+LUT->B[i])/3;
+
+		// float sepiaR = ((float)(LUT->R[i])*0.393) + ((float)(LUT->V[i])*0.769) + ((float)(LUT->B[i])*0.189);   
+		// float sepiaV = ((float)(LUT->R[i])*0.349) + ((float)(LUT->V[i])*0.686) + ((float)(LUT->B[i])*0.168); 
+		// float sepiaB = ((float)(LUT->R[i])*0.272) + ((float)(LUT->V[i])*0.534) + ((float)(LUT->B[i])*0.131);
+
+		// LUT->R[i]=(int)sepiaR;
+		// LUT->V[i]=(int)sepiaV;
+		// LUT->B[i]=(int)sepiaB;
+	}
+}
+
 //FONCTION qui applique les effets aux LUT RVB
 void applyLUT(LUT *LUT, Image *image){
 	
@@ -141,42 +169,4 @@ void applyLUT(LUT *LUT, Image *image){
     }
 }
 
-//FONCTION qui appelle les filtres en fonction des commandes
-void startLUT(int argc,char **argv,LUT *LUT,Image *image) {
-	int i=2;
-    while (i!= argc-2){
-        
-        if (strcmp(argv[i],"ADDLUM") == 0)
-        {
-        	printf("START : %s %s %d\n",argv[i+1] , argv[i],  atoi(argv[i+1]));
-            addLUM(atoi(argv[i+1]),LUT);
-        }
-
-        if (strcmp(argv[i],"DIMLUM") == 0)
-        {
-        	printf("START : %s %s %d\n",argv[i+1] , argv[i],  atoi(argv[i+1]));
-            dimLUM(atoi(argv[i+1]),LUT);
-        }
-
-        if (strcmp(argv[i],"ADDCON") == 0)
-        {
-        	printf("START : %s %s %d\n",argv[i+1] , argv[i],  atoi(argv[i+1]));
-            addCON(atoi(argv[i+1]),LUT);
-        }
-
-        if (strcmp(argv[i],"DIMCON") == 0)
-        {
-        	printf("START : %s %s %d\n",argv[i+1] , argv[i],  atoi(argv[i+1]));
-            dimCON(atoi(argv[i+1]),LUT);
-        }
-
-        if (strcmp(argv[i],"INVERT") == 0)
-        {
-        	printf("START : %s %s %d\n",argv[i+1] , argv[i],  atoi(argv[i+1]));
-            invert(LUT);
-        }
-        i++;
-    }   
-    applyLUT(LUT,image);
-}
 

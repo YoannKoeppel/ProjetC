@@ -1,10 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "image.h"
 #include "histogram.h"
 #include "lut.h"
 
+// prototype fonction LUT
+void startLUT(int argc,char **argv,LUT *LUT,Image *image);
 
 int main(int argc, char **argv)
 {
@@ -14,7 +17,6 @@ int main(int argc, char **argv)
 
     // create an image
     Image image;
-    unsigned char *pointeurHisto = NULL;
 
     // load a ppm file
     if(loadImagePPM(&image,argv[1]) != EXIT_SUCCESS)
@@ -34,11 +36,6 @@ int main(int argc, char **argv)
         LUT.B[i]=i;
     }
 
-    //création de l'histogramme
-    //pointeurHisto = initHistogram(&image);
-    //createHistogram(&image, pointeurHisto);
-    //printHistogram(pointeurHisto);
-
     //Execution
     startLUT(argc,argv,&LUT,&image);
 
@@ -49,6 +46,61 @@ int main(int argc, char **argv)
     freeImage(&image);
 
     return 0;
+}
+
+
+
+//FONCTION qui appelle les filtres en fonction des commandes
+void startLUT(int argc,char **argv,LUT *LUT,Image *image) {
+    int i=2;
+    while (i!= argc-2){
+        
+        if (strcmp(argv[i],"ADDLUM") == 0)
+        {
+            printf("START : %s %s %d\n",argv[i+1] , argv[i],  atoi(argv[i+1]));
+            addLUM(atoi(argv[i+1]),LUT);
+        }
+
+        if (strcmp(argv[i],"DIMLUM") == 0)
+        {
+            printf("START : %s %s %d\n",argv[i+1] , argv[i],  atoi(argv[i+1]));
+            dimLUM(atoi(argv[i+1]),LUT);
+        }
+
+        if (strcmp(argv[i],"ADDCON") == 0)
+        {
+            printf("START : %s %s %d\n",argv[i+1] , argv[i],  atoi(argv[i+1]));
+            addCON(atoi(argv[i+1]),LUT);
+        }
+
+        if (strcmp(argv[i],"DIMCON") == 0)
+        {
+            printf("START : %s %s %d\n",argv[i+1] , argv[i],  atoi(argv[i+1]));
+            dimCON(atoi(argv[i+1]),LUT);
+        }
+
+        if (strcmp(argv[i],"INVERT") == 0)
+        {
+            printf("START : %s %s %d\n",argv[i+1] , argv[i],  atoi(argv[i+1]));
+            invert(LUT);
+        }
+
+        if (strcmp(argv[i],"SEPIA") == 0)
+        {
+            printf("START : %s %s %d\n",argv[i+1] , argv[i],  atoi(argv[i+1]));
+            sepia(LUT);
+        }
+
+        if (strcmp(argv[i],"-histo") == 0)
+        {
+            unsigned char *pointeurHisto = NULL;
+            pointeurHisto = initHistogram(image);
+            createHistogram(image, pointeurHisto);
+        }
+
+        i++;
+    }   
+    applyLUT(LUT,image);
 }
    
 
