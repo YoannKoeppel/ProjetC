@@ -7,9 +7,10 @@
 #include "lut.h"
 
 int sepiaUsed = 0;
+int histoAsked = 0;
 
 // prototype fonction LUT
-void startLUT(int argc,char **argv,LUT *LUT,Image *image);
+void startLUT(int argc,char **argv,LUT *LUT,Image *image, Image *imageHisto) ;
 
 int main(int argc, char **argv)
 {
@@ -20,9 +21,14 @@ int main(int argc, char **argv)
     // create an image
     Image image;
 
+    // create an histogram image
+    Image imageHisto;
+    newImage(&imageHisto,255,300);
+
     // load a ppm file
     if(loadImagePPM(&image,argv[1]) != EXIT_SUCCESS)
         return EXIT_FAILURE;
+
     
     // stocke la taille de l'image
     image.taille = (image.width*image.height)*3;
@@ -38,11 +44,29 @@ int main(int argc, char **argv)
         LUT.B[i]=i;
     }
 
+    printf("histoaskedblabal" );
+
     //Execution
-    startLUT(argc,argv,&LUT,&image);
+    startLUT(argc,argv,&LUT,&image,&imageHisto);
 
     // save the image (if the directory "pics" already exists)
     saveImagePPM(&image, argv[argc-1]);
+    
+
+
+
+    if (histoAsked == 1) {
+        Image imageHistoOut;
+        newImage(&imageHistoOut,255,300);
+
+        int *pointeurHistoOut = NULL;
+        pointeurHistoOut = initHistogram(&image);
+        createHistogram(&image, pointeurHistoOut, &imageHistoOut);
+        saveImagePPM(&imageHistoOut, "histomodified.ppm");
+        freeImage(&imageHistoOut);
+    }
+
+
 
     // free the image memory
     freeImage(&image);
@@ -53,9 +77,19 @@ int main(int argc, char **argv)
 
 
 //FONCTION qui appelle les filtres en fonction des commandes
-void startLUT(int argc,char **argv,LUT *LUT,Image *image) {
+void startLUT(int argc,char **argv,LUT *LUT,Image *image, Image *imageHisto) {
     int i=2;
     while (i!= argc-2){
+
+        if (strcmp(argv[i],"-histo") == 0)
+        {
+            int *pointeurHisto = NULL;
+            pointeurHisto = initHistogram(image);
+            createHistogram(image, pointeurHisto, imageHisto);
+            histoAsked = 1;
+            saveImagePPM(imageHisto, "histoinitial.ppm");
+            freeImage(imageHisto);
+        }
         
         if (strcmp(argv[i],"ADDLUM") == 0)
         {
@@ -94,12 +128,6 @@ void startLUT(int argc,char **argv,LUT *LUT,Image *image) {
             sepia(LUT);
         }
 
-        if (strcmp(argv[i],"-histo") == 0)
-        {
-            unsigned char *pointeurHisto = NULL;
-            pointeurHisto = initHistogram(image);
-            createHistogram(image, pointeurHisto);
-        }
 
         i++;
     }   

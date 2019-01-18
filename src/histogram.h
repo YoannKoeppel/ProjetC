@@ -4,8 +4,9 @@
 #include "image.h"
 
 
-unsigned char* initHistogram (Image *image);
-void createHistogram (Image *image, unsigned char *Histo);
+int* initHistogram (Image *image);
+void createHistogram (Image *image, int *Histo, Image *imageHisto);
+int maxHisto (int *Histo);
 
 //void printHistogram(unsigned char *Histo);
 

@@ -17,6 +17,6 @@ void invert(LUT *LUT);
 void sepia(LUT *LUT);
 
 void applyLUT(LUT *LUT, Image *image, int sepiaUsed);
-void startLUT(int argc,char **argv,LUT *LUT,Image *image) ;
+void startLUT(int argc,char **argv,LUT *LUT,Image *image, Image *imageHisto);
 
 #endif
