@@ -23,11 +23,12 @@ void createHistogram (Image *image, int *Histo, Image *imageHisto){
         Histo[m]+=1;
     }
 
-    for (int i = 0; i <= 255; ++i)
-    {
-        printf("%d : %d\n",i, Histo[i]);
+    // Affiche les valeurs de l'histogramme
+    // for (int i = 0; i <= 255; ++i)
+    // {
+    //     printf("%d : %d\n",i, Histo[i]);
 
-    }
+    // }
 
     float unitHeight = 255.0 / maxHisto(Histo);
 

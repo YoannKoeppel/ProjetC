@@ -23,7 +23,6 @@ int main(int argc, char **argv)
 
     // create an histogram image
     Image imageHisto;
-    newImage(&imageHisto,255,300);
 
     // load a ppm file
     if(loadImagePPM(&image,argv[1]) != EXIT_SUCCESS)
@@ -44,36 +43,18 @@ int main(int argc, char **argv)
         LUT.B[i]=i;
     }
 
-    printf("histoaskedblabal" );
-
     //Execution
     startLUT(argc,argv,&LUT,&image,&imageHisto);
 
     // save the image (if the directory "pics" already exists)
     saveImagePPM(&image, argv[argc-1]);
+     printf("---- NEW IMAGE saved as \"%s\"\n", argv[argc-1]);
     
-
-
-
-    if (histoAsked == 1) {
-        Image imageHistoOut;
-        newImage(&imageHistoOut,255,300);
-
-        int *pointeurHistoOut = NULL;
-        pointeurHistoOut = initHistogram(&image);
-        createHistogram(&image, pointeurHistoOut, &imageHistoOut);
-        saveImagePPM(&imageHistoOut, "histomodified.ppm");
-        freeImage(&imageHistoOut);
-    }
-
-
-
     // free the image memory
     freeImage(&image);
 
     return 0;
 }
-
 
 
 //FONCTION qui appelle les filtres en fonction des commandes
@@ -83,55 +64,69 @@ void startLUT(int argc,char **argv,LUT *LUT,Image *image, Image *imageHisto) {
 
         if (strcmp(argv[i],"-histo") == 0)
         {
+                
+            newImage(imageHisto,255,300);
             int *pointeurHisto = NULL;
             pointeurHisto = initHistogram(image);
             createHistogram(image, pointeurHisto, imageHisto);
-            histoAsked = 1;
-            saveImagePPM(imageHisto, "histoinitial.ppm");
+            saveImagePPM(imageHisto, "images/histoInitial.ppm");
+            printf("---- INITIAL HISTOGRAM saved as \"images/histoInitial.ppm\"\n");
             freeImage(imageHisto);
+            histoAsked = 1;
         }
         
         if (strcmp(argv[i],"ADDLUM") == 0)
         {
-            printf("START : %s %s %d\n",argv[i+1] , argv[i],  atoi(argv[i+1]));
             addLUM(atoi(argv[i+1]),LUT);
+            printf("---- ADDLUM filter applicated\n");
         }
 
         if (strcmp(argv[i],"DIMLUM") == 0)
         {
-            printf("START : %s %s %d\n",argv[i+1] , argv[i],  atoi(argv[i+1]));
             dimLUM(atoi(argv[i+1]),LUT);
+            printf("---- DIMLUM filter applicated\n");
         }
 
         if (strcmp(argv[i],"ADDCON") == 0)
         {
-            printf("START : %s %s %d\n",argv[i+1] , argv[i],  atoi(argv[i+1]));
             addCON(atoi(argv[i+1]),LUT);
+            printf("---- ADDCON filter applicated\n");
         }
 
         if (strcmp(argv[i],"DIMCON") == 0)
         {
-            printf("START : %s %s %d\n",argv[i+1] , argv[i],  atoi(argv[i+1]));
             dimCON(atoi(argv[i+1]),LUT);
+            printf("---- DIMCON filter applicated\n");
         }
 
         if (strcmp(argv[i],"INVERT") == 0)
         {
-            printf("START : %s %s %d\n",argv[i+1] , argv[i],  atoi(argv[i+1]));
             invert(LUT);
+            printf("---- INVERT filter applicated\n"); 
         }
 
         if (strcmp(argv[i],"SEPIA") == 0)
         {
         	sepiaUsed = 1;
-            printf("START : %s %s %d\n",argv[i+1] , argv[i],  atoi(argv[i+1]));
             sepia(LUT);
+            printf("---- SEPIA filter applicated\n");
         }
-
 
         i++;
     }   
     applyLUT(LUT,image,sepiaUsed);
+
+    if (histoAsked ==1 )
+    {
+            Image imageHistoOut;
+            newImage(&imageHistoOut,255,300);
+            int *pointeurHistoOut = NULL;
+            pointeurHistoOut = initHistogram(image);
+            createHistogram(image, pointeurHistoOut, &imageHistoOut);
+            saveImagePPM(&imageHistoOut, "images/histoNew.ppm");
+            printf("---- NEW HISTOGRAM saved as \"images/histoNew.ppm\"\n");
+            freeImage(&imageHistoOut);
+    }
 }
    
 
