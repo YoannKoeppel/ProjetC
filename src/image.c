@@ -17,7 +17,6 @@ int newImage(Image *image, unsigned int width, unsigned int height)
   image->width  = width;
   image->height = height;
 
-
   return EXIT_SUCCESS;
 }
 
@@ -66,7 +65,6 @@ int saveImagePPM(Image *image, char *filename)
 
   return EXIT_SUCCESS;
 }
-
 
 
 // reads only P6

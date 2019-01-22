@@ -5,7 +5,7 @@
 
 #include "lut.h"
 
-//FONCTION ADDLUM
+//ADDLUM filter
 void addLUM(int value, LUT *LUT) {
 	for (int i = 0; i < 256; i++)
 	{
@@ -15,7 +15,7 @@ void addLUM(int value, LUT *LUT) {
 	}
 }
 
-//FONCTION DIMLUM
+//DIMLUM filter
 void dimLUM(int value, LUT *LUT) {
 	for (int i = 0; i < 256; i++)
 	{
@@ -25,7 +25,7 @@ void dimLUM(int value, LUT *LUT) {
 	}
 }
 
-//FONCTION ADDCON
+//ADDCON filter
 void addCON(int value, LUT *LUT) {
 
 	float varFormule = 0;
@@ -33,7 +33,7 @@ void addCON(int value, LUT *LUT) {
 
 	for (int i = 0; i < 256; i++)
 	{
-		//ROUGES
+		//Red
 		varFormule = (LUT->R[i])*0.0039;
 		facteur = 0.5*(sin(M_PI*varFormule+3*M_PI/2)+1);
 		
@@ -46,7 +46,7 @@ void addCON(int value, LUT *LUT) {
 		}
 		LUT->R[i]=(int)((float)(LUT->R[i])*facteur);
 
-		//VERTS
+		//Green
 		varFormule = (LUT->V[i])*0.0039;
 		facteur = 0.5*(sin(M_PI*varFormule+3*M_PI/2)+1);
 		
@@ -59,7 +59,7 @@ void addCON(int value, LUT *LUT) {
 		}
 		LUT->V[i]=(int)((float)(LUT->V[i])*facteur);
 
-		//BLEUS
+		//Blue
 		varFormule = (LUT->B[i])*0.0039;
 		facteur = 0.5*(sin(M_PI*varFormule+3*M_PI/2)+1);
 		
@@ -75,7 +75,7 @@ void addCON(int value, LUT *LUT) {
 	}
 }
 
-//FONCTION DIMCON
+//DIMCON filter
 void dimCON(int value, LUT *LUT) {
 	float facteur = ((259.0*(255.0-(float)value))/(255.0*(259.0 + (float)value)));
 	for (int i = 0; i < 256; i++)
@@ -86,7 +86,7 @@ void dimCON(int value, LUT *LUT) {
 	}
 }
 
-//FONCTION INVERT
+//INVERT filter
 void invert(LUT *LUT) {
 	for (int i = 0; i < 256; i++)
 	{
@@ -96,7 +96,7 @@ void invert(LUT *LUT) {
 	}
 }
 
-//FONCTION SEPIA
+//SEPIA filter
 void sepia(LUT *LUT) {
 	for (int i = 0; i < 256; i++)
 	{
@@ -110,10 +110,10 @@ void sepia(LUT *LUT) {
 	}
 }
 
-//FONCTION qui applique les effets aux LUT RVB
+//apply filter effects on RGB LUT struct
 void applyLUT(LUT *LUT, Image *image, int sepiaUsed){
 	
-	//normalisation des saturations
+	//normalize
 	for (int i = 0; i < 256; i++)
 	 {
 
@@ -145,7 +145,7 @@ void applyLUT(LUT *LUT, Image *image, int sepiaUsed){
 	 	}
 	 }
 
-	//application des effets aux LUT
+	//apply filter effect
  	for (int j=0; j < image->taille; j=j+3)
  	{
  		if(sepiaUsed == 1)
